@@ -14,13 +14,13 @@ var (
 )
 
 type program struct{}
-type Install struct {
+type install struct {
 }
 
 /*
 	名称，静止名字，说明
 */
-func (p *Install) New(name, displayname, description string) (*Install, error) {
+func New(name, displayname, description string) (*install, error) {
 	serConfig = &service.Config{
 		Name:        name,
 		DisplayName: displayname,
@@ -32,15 +32,17 @@ func (p *Install) New(name, displayname, description string) (*Install, error) {
 	if err != nil {
 		return nil, errors.New("错误")
 	}
-	return p, nil
+	p := install{}
+	return &p, nil
 }
-func (p *Install) Install() {
+
+func (p *install) Install() {
 	s.Install()
 }
-func (p *Install) Unistall() {
+func (p *install) Unistall() {
 	s.Uninstall()
 }
-func (p *Install) Run(main func()) {
+func (p *install) Run(main func()) {
 	mains = main
 	s.Run()
 }
