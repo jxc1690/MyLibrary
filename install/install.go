@@ -1,6 +1,7 @@
 package install
 
 import (
+	"errors"
 	"github.com/kardianos/service"
 )
 
@@ -19,7 +20,7 @@ type Install struct {
 /*
 	名称，静止名字，说明
 */
-func (p *Install) New(name, displayname, description string) bool {
+func (p *Install) New(name, displayname, description string) (*Install, error) {
 	serConfig = &service.Config{
 		Name:        name,
 		DisplayName: displayname,
@@ -29,9 +30,9 @@ func (p *Install) New(name, displayname, description string) bool {
 	var err error
 	s, err = service.New(pro, serConfig)
 	if err != nil {
-		return false
+		return nil, errors.New("错误")
 	}
-	return true
+	return p, nil
 }
 func (p *Install) Install() {
 	s.Install()
