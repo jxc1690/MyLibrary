@@ -5,6 +5,8 @@ import (
 	"github.com/kardianos/service"
 )
 
+type mainp func()
+
 var (
 	mains     func()
 	logger    service.Logger
@@ -18,7 +20,7 @@ type install struct {
 }
 
 /*
-	名称，静止名字，说明
+	名称，展示名称，说明
 */
 func New(name, displayname, description string) (*install, error) {
 	serConfig = &service.Config{
@@ -36,13 +38,13 @@ func New(name, displayname, description string) (*install, error) {
 	return &p, nil
 }
 
-func (p *install) Install() {
-	s.Install()
+func (p *install) Install() error {
+	return s.Install()
 }
-func (p *install) Unistall() {
-	s.Uninstall()
+func (p *install) Unistall() error {
+	return s.Uninstall()
 }
-func (p *install) Run(main func()) {
+func (p *install) Run(main mainp) {
 	mains = main
 	s.Run()
 }
